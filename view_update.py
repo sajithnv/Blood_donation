@@ -1,9 +1,11 @@
 from tkinter import *
 from tkinter import messagebox  as m
+from view_update1 import *
 import pymysql
+
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
-def update():
+def view():
     global t2
     t2=Toplevel(bd=10,relief=SOLID)
     t2.title('Admin page')
@@ -11,23 +13,23 @@ def update():
     t2.resizable(0,0)
     t2['bg']='light blue'
     z=Label(t2,text='Admin Home',font=('times new roman',30),relief=SOLID,width=25)
-    z.pack(padx=5,pady=30)
-    b1=Button(t2,text='Donar Details',command=donar_details,width=20,font=('ariel',15,'bold'),fg='white',bg='black')
-    b1.pack(padx=10,pady=20)
-    b2=Button(t2,text='Reciever Details',command=reciever_details,width=20,font=('ariel',15,'bold'),fg='white',bg='black')
-    b2.pack(padx=10,pady=20)
-    b3=Button(t2,text='Update Donar',width=20,font=('ariel',15,'bold'),fg='white',bg='black')
-    b3.pack(padx=10,pady=20)
-    b4=Button(t2,text='Update Reciever',width=20,font=('ariel',15,'bold'),fg='white',bg='black')
-    b4.pack(padx=10,pady=20)
+    z.pack(padx=5,pady=20)
+    b1=Button(t2,text='Donor Details',command=donor_details,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
+    b1.pack(padx=10,pady=17)
+    b2=Button(t2,text='Receiver Details',command=receiver_details,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
+    b2.pack(padx=10,pady=17)
+    b3=Button(t2,text='Update Donor',command=update_donor,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
+    b3.pack(padx=10,pady=17)
+    b4=Button(t2,text='Update Receiver',command=update_receiver,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
+    b4.pack(padx=10,pady=17)
     t2.mainloop()
-def donar_details():
+def donor_details():
     t3=Toplevel(bd=10,relief=SOLID)
-    t3.title('donar details')
+    t3.title('donor details')
     t3.geometry('1300x700+30+20')
     t3.resizable(0,0)
     t3['bg']='light blue'
-    lhead=Label(t3,text='Donar Details',font=('times new roman',30),relief=SOLID,width=53)
+    lhead=Label(t3,text='Donor Details',font=('times new roman',30),relief=SOLID,width=53)
     lhead.place(x=50,y=30)
     lname=Label(t3,width=12,text=' Name ',font=('times new roman',15),bg='black',fg='white',)
     lname.place(x=80,y=100)
@@ -46,7 +48,7 @@ def donar_details():
     ldate=Label(t3,width=12,text=' Date ',font=('times new roman',15),relief=SOLID,bg='black',fg='white')
     ldate.place(x=1060,y=100)
 
-    c.execute('select * from donar')
+    c.execute('select * from donor')
     result=c.fetchall()
     num=130
     for i in result:
@@ -68,13 +70,13 @@ def donar_details():
         lbdate.place(x=1060,y=num)
         num+=30
     t3.mainloop()    
-def reciever_details():
+def receiver_details():
     t5=Toplevel(bd=10,relief=SOLID)
-    t5.title('reciver details')
+    t5.title('receiver details')
     t5.geometry('1300x700+30+20')
     t5.resizable(0,0)
     t5['bg']='light blue'
-    lb1head=Label(t5,text='Reciver Details',font=('times new roman',30),relief=SOLID,width=53)
+    lb1head=Label(t5,text='Receiver Details',font=('times new roman',30),relief=SOLID,width=53)
     lb1head.place(x=50,y=30)
     lb1name=Label(t5,width=12,text=' Name ',font=('times new roman',15),bg='black',fg='white',)
     lb1name.place(x=80,y=100)
@@ -93,7 +95,7 @@ def reciever_details():
     lb1date=Label(t5,width=12,text=' Date ',font=('times new roman',15),relief=SOLID,bg='black',fg='white')
     lb1date.place(x=1060,y=100)
 
-    c.execute('select * from reciever')
+    c.execute('select * from receiver')
     result=c.fetchall()
     num=130
     for i in result:
@@ -115,4 +117,4 @@ def reciever_details():
         lb2date.place(x=1060,y=num)
         num+=30 
     t5.mainloop()    
-        
+

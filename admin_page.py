@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox  as m
 import pymysql
 from view_update import *
+
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
 def sub():
@@ -18,7 +19,7 @@ def sub():
                     t1.withdraw()
                 elif op==1:
                     t1.iconify()
-                    update()   
+                    view()   
             else:
                 m.showerror('password','Wrong PASSWORD')
         else:
@@ -46,6 +47,6 @@ def admin():
     euser.place(x=285,y=100)
     epass.place(x=285,y=140)
 
-    button=Button(t1,text='SUBMIT',font=('times new roman',10),bg='black',fg='white',width=30,command=sub)
+    button=Button(t1,text='SUBMIT',font=('times new roman',10),relief=SUNKEN,bd=5,bg='black',fg='white',width=30,command=sub)
     button.place(x=180,y=200)
     

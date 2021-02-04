@@ -18,7 +18,7 @@ def submit():
 ##        for i in result:
 ##            if z4 in i[3]:
 ##                newblood=int(z7)+int(i[3])
-##                y="update donar set messurement=f'{newblood}' where phone=f'{int(z4)}'"
+##                y="update donor set messurement=f'{newblood}' where phone=f'{int(z4)}'"
 ##                c.execute(y)
 ##                d.commit()
 ##        else: 
@@ -34,9 +34,9 @@ def submit():
         m.showwarning('warning..','Age limit 18 to 65')
     elif z6 not in list1:
         m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')    
-##    elif int(z7)>350 and int(z7)<30:
-##        m.showwarning('Limitation Warning','U can donate maximum 350ml and minimum 30ml at a time')
-##        emessure.delete(0,'end')
+    elif int(z7)<350 and int(z7)>30:
+        m.showwarning('Limitation Warning','U can donate maximum 350ml and minimum 30ml at a time')
+        emessure.delete(0,'end')
     elif len(z4)<10 or len(z4)>10:
         m.showwarning('warning..','Phone number length should be 10')
     else:
@@ -47,14 +47,14 @@ def submit():
 ##            m.message('',f'{i[0]}')
 ##            m.message('',f'{z4 in i[3]}')
 ##            if z4 in i[3]:
-##                z="select messurement from donar where phone=f'{i[3]}'"
+##                z="select messurement from donor where phone=f'{i[3]}'"
 ##                c.execute(z)
 ##                bld=int(i[6])+10
 ##                m.message('',f'{bld}')
 ##                newblood=f'{str(bld)}'
-####                z="select messsure from donar where phone=f'i[3]'"
+####                z="select messsure from donor where phone=f'i[3]'"
 ####                c.execute(z)
-##                y="update donar set messurement='%s' where phone='%s'"
+##                y="update donor set messurement='%s' where phone='%s'"
 ##                c.execute(y,(newblood,z4))
 ##                d.commit()
 ##            else: 

@@ -18,7 +18,7 @@ def submit():
 ##        for i in result:
 ##            if z4 in i[3]:
 ##                newblood=int(z7)+int(i[3])
-##                y="update donar set messurement=f'{newblood}' where phone=f'{int(z4)}'"
+##                y="update donor set messurement=f'{newblood}' where phone=f'{int(z4)}'"
 ##                c.execute(y)
 ##                d.commit()
 ##        else: 
@@ -40,7 +40,7 @@ def submit():
     elif len(z4)<10 or len(z4)>10:
         m.showwarning('warning..','Phone number length should be 10')
     else:
-##        c.execute('select phone from donar')
+##        c.execute('select phone from donor')
 ##        result=c.fetchall()
 ##        l=[]
 ##        for i in int(result):
@@ -49,7 +49,7 @@ def submit():
 ##        if z4 in l:
 ##            print('hii')
 ##            x=ephone.get()
-##            c.execute("select messurement from donar where phone=f'{x}'")
+##            c.execute("select messurement from donor where phone=f'{x}'")
 ##            result=c.fetchall()
 ##            print(result)
 ##            
@@ -58,13 +58,13 @@ def submit():
 ##                    bld=int(i[6])+10
 ##                    m.message('',f'{bld}')
 ##                    newblood=f'{str(bld)}'
-##                    z="select messsure from donar"
+##                    z="select messsure from donor"
 ##                    c.execute(z)
-##                    y="update donar set messurement='%s' where phone='%s'"
+##                    y="update donor set messurement='%s' where phone='%s'"
 ##                    c.execute(y,(newblood,z4))
 ##                    d.commit()
            
-        x='''insert into donar values(%s,%s,%s,%s,%s,%s,%s,%s)'''
+        x='''insert into donor values(%s,%s,%s,%s,%s,%s,%s,%s)'''
         c.execute(x,(z1,z2,z3,z4,z5,z6,z7,z8))
         d.commit()   
         ename.delete(0,'end')
@@ -75,18 +75,18 @@ def submit():
         eblood.delete(0,'end')
         emessure.delete(0,'end')
         m.showinfo('Notification',f'{z1}, Data added successfuly')
-        z=m.askyesno('close donar page','Are you sure to CLOSE DONAR PAGE...')
+        z=m.askyesno('close donor page','Are you sure to CLOSE DONOR PAGE...')
         if z==1:
-            t.withdraw()
+            t4.withdraw()
 
-def donar():
+def donor():
     q=m.askyesno('IMPORTENT QUESTION','Your body weight more than 45 kg AND HEMOGOBLIN Content More than 12.5gms/100ml')
     if q==0:
         m.showerror('<<SORRY>>','You can\'t DONATE Blood')
     elif q==1:
-        global ename,eage,n3,ephone,eaddress,eblood,emessure,t,edate,nday,nmonth,nyear
+        global ename,eage,n3,ephone,eaddress,eblood,emessure,t4,edate,nday,nmonth,nyear
         t4=Toplevel(bd=10,relief=SOLID)
-        t4.title('Donar page')
+        t4.title('Donor page')
         t4.geometry('600x500+720+100')
         t4.resizable(0,0)
         t4['bg']='light blue'
@@ -106,7 +106,7 @@ def donar():
         nmonth=now.strftime("%m")
         nyear=now.strftime("%Y")
         
-        lhead=Label(t4,text='Donar Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
+        lhead=Label(t4,text='Donor Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
         lhead.pack(padx=40,pady=20)
         ldate=Label(t4,text='Date',fg='white',bg='black',width=20)
         ldate.place(x=120,y=100)
