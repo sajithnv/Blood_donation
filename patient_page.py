@@ -28,19 +28,20 @@ def submit():
 ##        m.showwarning('warning..','Name field only consider alphabets and spaces!!!') 
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
+        eage.delete(0,'end')
     elif z4.isdigit()==0:
-        m.showwarning('warning..','Phone number field only consider numbers!!!')      
+        m.showwarning('warning..','Phone number field only consider numbers!!!')
+        ephone.delete(0,'end')
     elif int(z2)>99:
         m.showwarning('warning..','Age limit 18 to 65')
+        eage.delete(0,'end')
     elif z6 not in list1:
-        m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')    
-    elif int(z7)<350 and int(z7)>30:
-        m.showwarning('Limitation Warning','U can donate maximum 350ml and minimum 30ml at a time')
-        emessure.delete(0,'end')
+        m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')
+        eblood.delete(0,'end')
     elif len(z4)<10 or len(z4)>10:
         m.showwarning('warning..','Phone number length should be 10')
     else:
-        x='''insert into reciever values(%s,%s,%s,%s,%s,%s,%s,%s)'''
+        x='''insert into receiver values(%s,%s,%s,%s,%s,%s,%s,%s)'''
         c.execute(x,(z1,z2,z3,z4,z5,z6,z7,z8))
 ##        result=c.fetchall()
 ##        for i in result:
@@ -67,14 +68,14 @@ def submit():
         eblood.delete(0,'end')
         emessure.delete(0,'end')
         m.showinfo('Notification',f'{z1}, Data added successfuly')
-        z=m.askyesno('close Reciever page','Are you sure to CLOSE RECIEVER PAGE...')
+        z=m.askyesno('close Receiver page','Are you sure to CLOSE RECEIVER PAGE...')
         if z==1:
-            t.withdraw()
+            t6.withdraw()
 
 def patient():
-        global ename,eage,n3,ephone,eaddress,eblood,emessure,t,edate,nday,nmonth,nyear
+        global ename,eage,n3,ephone,eaddress,eblood,emessure,t6,edate,nday,nmonth,nyear
         t6=Toplevel(bd=10,relief=SOLID)
-        t6.title('Reciever page')
+        t6.title('Receiver page')
         t6.geometry('600x500+740+100')
         t6.resizable(0,0)
         t6['bg']='light blue'
@@ -94,7 +95,7 @@ def patient():
         nmonth=now.strftime("%m")
         nyear=now.strftime("%Y")
         
-        lhead=Label(t6,text='Reciever Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
+        lhead=Label(t6,text='Receiver Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
         lhead.pack(padx=40,pady=20)
         ldate=Label(t6,text='Date',fg='white',bg='black',width=20)
         ldate.place(x=120,y=100)
