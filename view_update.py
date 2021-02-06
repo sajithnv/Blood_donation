@@ -22,6 +22,20 @@ def view():
     b3.pack(padx=10,pady=17)
     b4=Button(t2,text='Update Receiver',command=update_receiver,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
     b4.pack(padx=10,pady=17)
+    c.execute('select messurement from donor')
+    res=c.fetchall()
+    x=0
+    for r in res:
+        x=x+int(r[0])
+    if x>0:
+        m.showinfo('On branch ADMIN','DONOR UPDATION IS REQUIRED...')
+    c.execute('select messurement from receiver')
+    res=c.fetchall()
+    x1=0
+    for r in res:
+        x1=x1+int(r[0])
+    if x1>0:
+        m.showinfo('On branch ADMIN','RECEIVER UPDATE IS REQUIRED...')    
     t2.mainloop()
 def donor_details():
     t3=Toplevel(bd=10,relief=SOLID)

@@ -6,6 +6,13 @@ c=d.cursor()
 #for add the donar blood to stock and clear the donar stock empty
 def donorblood():
     t=0
+    c.execute('select messurement from donor')
+    res=c.fetchall()
+    x=0
+    for r in res:
+        x=x+int(r[0])
+    if x==0:
+        m.showinfo('On branch ADMIN','Nothing to update total amount of blood= 0')
     for i in bg:
         if i=='A+':
             c.execute('select messurement from donor where blood_group="A+"')
@@ -15,9 +22,12 @@ def donorblood():
             c.execute('select ap from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue
             c.execute('update update_blood set ap=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="A+"')
+            m.showinfo('STATEMENT',f'Blood A+ Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')
             d.commit()
         elif i=='A-':
             c.execute('select messurement from donor where blood_group="A-"')
@@ -27,9 +37,12 @@ def donorblood():
             c.execute('select am from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set am=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="A-"')
+            m.showinfo('STATEMENT',f'Blood A- Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')
             d.commit()
         elif i=='B+':
             c.execute('select messurement from donor where blood_group="B+"')
@@ -39,9 +52,12 @@ def donorblood():
             c.execute('select bp from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set bp=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="B+"')
+            m.showinfo('STATEMENT',f'Blood B+ Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')
             d.commit()
         elif i=='B-':
             c.execute('select messurement from donor where blood_group="B-"')
@@ -51,9 +67,12 @@ def donorblood():
             c.execute('select bm from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set bm=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="B-"')
+            m.showinfo('STATEMENT',f'Blood B- Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')            
             d.commit()
         elif i=='AB+':
             c.execute('select messurement from donor where blood_group="AB+"')
@@ -63,9 +82,12 @@ def donorblood():
             c.execute('select abp from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set abp=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="AB+"')
+            m.showinfo('STATEMENT',f'Blood AB+ Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')            
             d.commit()
         elif i=='AB-':
             c.execute('select messurement from donor where blood_group="AB-"')
@@ -75,9 +97,12 @@ def donorblood():
             c.execute('select abm from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set abm=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="AB-"')
+            m.showinfo('STATEMENT',f'Blood AB- Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')            
             d.commit()
         elif i=='O+':
             c.execute('select messurement from donor where blood_group="O+"')
@@ -87,9 +112,12 @@ def donorblood():
             c.execute('select op from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set op=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="O+"')
+            m.showinfo('STATEMENT',f'Blood O+ Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')            
             d.commit()
         elif i=='O-':
             c.execute('select messurement from donor where blood_group="O-"')
@@ -99,9 +127,13 @@ def donorblood():
             c.execute('select om from update_blood')
             apres=c.fetchall()
             for k in apres:
-                t1=int(k[0]) 
+                t1=int(k[0])
+            if t<=0:
+                continue    
             c.execute('update update_blood set om=%s',(t1+t))
             c.execute('update donor set messurement="0" where blood_group="O-"')
+            m.showinfo('STATEMENT',f'Blood O- Stored successfully..crnt_bld: {t1} new_bld: {t} total= {t1+t}')
+            
             d.commit()     
 def update_donor():#UI
     global bg
@@ -137,12 +169,21 @@ def update_donor():#UI
         bg.add(eblood.cget('text'))
         num+=30
     lbbutton=Button(t3,text='Update',font=('times new roman',20),relief=SUNKEN,bd=5,width=15,bg='red',fg='white',command=donorblood)
-    lbbutton.place(x=300,y=450)      
+    lbbutton.place(x=300,y=450)
+    c.execute('select messurement from donor')
+    
     t3.mainloop()
 #for receive blood and clear the stock from donarstock
 def receiverblood():
     t=0
-    for i in bg1:
+    c.execute('select messurement from receiver')
+    res=c.fetchall()
+    x=0
+    for r in res:
+        x=x+int(r[0])
+    if x==0:
+        m.showinfo('On branch ADMIN','Nothing to update No one is requested yet!')
+    for i in bg1:  
         if i=='O-':
             c.execute('select om from update_blood')
             mres1=c.fetchall()
@@ -151,7 +192,9 @@ def receiverblood():
             c.execute('select messurement from receiver where blood_group="O-"')
             mres5=c.fetchall()
             for j5 in mres5:
-                t+=int(j5[0])  
+                t+=int(j5[0])
+            if t<=0:
+                continue
             if t<t1:
                 m.showinfo('Blood','O- Blood is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
@@ -172,13 +215,15 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue    
             total=t1+t2    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','O+ Blood is Received Successfully')
                 c.execute('update update_blood set op=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="O+"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','O+ is not available..so, O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t2-t))
@@ -193,7 +238,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of O+ and O- are used..,Blood Received successfully')
                             c.execute('update receiver set messurement="0" where blood_group="O-"')
                             c.execute('update update_blood set om=%s',(t2-t2))
                             d.commit()
@@ -220,13 +264,15 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue    
             total=t1+t2    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','A- Blood is Received Successfully')
                 c.execute('update update_blood set am=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="A-"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','A- is not available..so, O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t2-t))
@@ -241,7 +287,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of A- and O- are used..,Blood Received successfully')
                             c.execute('update receiver set messurement="0" where blood_group="O-"')
                             c.execute('update update_blood set om=%s',(t2-t2))
                             d.commit()
@@ -268,13 +313,15 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue    
             total=t1+t2    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','B- Blood is Received Successfully')
                 c.execute('update update_blood set bm=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="B-"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','B- is not available..so, O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t2-t))
@@ -289,7 +336,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of B- and O- are used..,Blood Received successfully')
                             c.execute('update receiver set messurement="0" where blood_group="O-"')
                             c.execute('update update_blood set om=%s',(t2-t2))
                             d.commit()
@@ -325,23 +371,25 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue
             total=t1+t2+t3+t4    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','A+ Blood is Received Successfully')
                 c.execute('update update_blood set ap=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="A+"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','A+ is not available..so, A- is Received Successfully')
                 c.execute('update update_blood set am=%s',(t2-t))
                 c.execute('update receiver set messurement="0" where blood_group="A-"')
                 d.commit()
-            elif t<t3:
+            elif t<=t3:
                 m.showinfo('Blood','A+ is not available..so,O+ is Received Successfully')
                 c.execute('update update_blood set op=%s',(t3-t))
                 c.execute('update receiver set messurement="0" where blood_group="O+"')
                 d.commit()
-            elif t<t4:
+            elif t<=t4:
                 m.showinfo('Blood','A+ is not available..so,O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t4-t))
@@ -356,7 +404,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of A+ and A- are used..,Blood Received successfully')
                             c.execute('update update_blood set am=%s',(t2-t2))
                             c.execute('update receiver set messurement="0" where blood_group="A-"')
                             d.commit()
@@ -365,25 +412,24 @@ def receiverblood():
                             c.execute('update update_blood set am=%s',(t2-abs(b1)))
                             c.execute('update receiver set messurement="0" where blood_group="A-"')
                             d.commit()
-                    if b2<0:
-                        b3=t3-abs(b2)
-                        if b3<=0:
-                            m.showinfo('Blood','Combination of A+,A-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-t3))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of A+,A-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-abs(b2)))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                    if b3<0:
-                        b4=t4-abs(b3)
-                        if b4<=0:
-                            m.showinfo('Blood','Combination of A+,A-,O+,O- are used...,Blood Received successfully')
-                            c.execute('update receiver set messurement="0" where blood_group="O-"')
-                            c.execute('update update_blood set om=%s',(t4-t4))
-                            d.commit()
+                        if b2<0:
+                            b3=t3-abs(b2)
+                            if b3<=0:
+                                c.execute('update update_blood set op=%s',(t3-t3))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            else:
+                                m.showinfo('Blood','Combination of A+,A-and O+ are used..,Blood Received successfully')
+                                c.execute('update update_blood set op=%s',(t3-abs(b2)))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            if b3<0:
+                                b4=t4-abs(b3)
+                                if b4<=0:
+                                    m.showinfo('Blood','Combination of A+,A-,O+,O- are used...,Blood Received successfully')
+                                    c.execute('update receiver set messurement="0" where blood_group="O-"')
+                                    c.execute('update update_blood set om=%s',(t4-t4))
+                                    d.commit()
     ##                    else:
     ##                        c.execute('update update_blood set op=%s',(t4-abs(b3))
     ##                        c.execute('update receiver set messurement="0" where blood_group="O+"')
@@ -413,23 +459,25 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue    
             total=t1+t2+t3+t4    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','B+ Blood is Received Successfully')
                 c.execute('update update_blood set bp=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="B+"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','B+ is not available..so, B- is Received Successfully')
                 c.execute('update update_blood set bm=%s',(t2-t))
                 c.execute('update receiver set messurement="0" where blood_group="B-"')
                 d.commit()
-            elif t<t3:
+            elif t<=t3:
                 m.showinfo('Blood','B+ is not available..so,O+ is Received Successfully')
                 c.execute('update update_blood set op=%s',(t3-t))
                 c.execute('update receiver set messurement="0" where blood_group="O+"')
                 d.commit()
-            elif t<t4:
+            elif t<=t4:
                 m.showinfo('Blood','B+ is not available..so,O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t4-t))
@@ -444,7 +492,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of B+ and B- are used..,Blood Received successfully')
                             c.execute('update update_blood set bm=%s',(t2-t2))
                             c.execute('update receiver set messurement="0" where blood_group="B-"')
                             d.commit()
@@ -453,25 +500,24 @@ def receiverblood():
                             c.execute('update update_blood set bm=%s',(t2-abs(b1)))
                             c.execute('update receiver set messurement="0" where blood_group="B-"')
                             d.commit()
-                    if b2<0:
-                        b3=t3-abs(b2)
-                        if b3<=0:
-                            m.showinfo('Blood','Combination of B+,B-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-t3))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of B+,B-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-abs(b2)))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                    if b3<0:
-                        b4=t4-abs(b3)
-                        if b4<=0:
-                            m.showinfo('Blood','Combination of B+,B-,O+,O- are used...,Blood Received successfully')
-                            c.execute('update receiver set messurement="0" where blood_group="O-"')
-                            c.execute('update update_blood set om=%s',(t4-t4))
-                            d.commit()
+                        if b2<0:
+                            b3=t3-abs(b2)
+                            if b3<=0:
+                                c.execute('update update_blood set op=%s',(t3-t3))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            else:
+                                m.showinfo('Blood','Combination of B+,B-and O+ are used..,Blood Received successfully')
+                                c.execute('update update_blood set op=%s',(t3-abs(b2)))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            if b3<0:
+                                b4=t4-abs(b3)
+                                if b4<=0:
+                                    m.showinfo('Blood','Combination of B+,B-,O+,O- are used...,Blood Received successfully')
+                                    c.execute('update receiver set messurement="0" where blood_group="O-"')
+                                    c.execute('update update_blood set om=%s',(t4-t4))
+                                    d.commit()
     ##                    else:
     ##                        c.execute('update update_blood set op=%s',(t4-abs(b3))
     ##                        c.execute('update receiver set messurement="0" where blood_group="O+"')
@@ -502,23 +548,25 @@ def receiverblood():
             mres5=c.fetchall()
             for j5 in mres5:
                 t+=int(j5[0])
+            if t<=0:
+                continue    
             total=t1+t2+t3+t4    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','AB- Blood is Received Successfully')
                 c.execute('update update_blood set abm=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="AB-"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','AB- is not available..so, A- is Received Successfully')
                 c.execute('update update_blood set am=%s',(t2-t))
                 c.execute('update receiver set messurement="0" where blood_group="A-"')
                 d.commit()
-            elif t<t3:
+            elif t<=t3:
                 m.showinfo('Blood','AB- is not available..so,B-is Received Successfully')
                 c.execute('update update_blood set bm=%s',(t3-t))
                 c.execute('update receiver set messurement="0" where blood_group="B-"')
                 d.commit()
-            elif t<t4:
+            elif t<=t4:
                 m.showinfo('Blood','AB- is not available..so,O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t4-t))
@@ -533,7 +581,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of AB- and A- are used..,Blood Received successfully')
                             c.execute('update update_blood set am=%s',(t2-t2))
                             c.execute('update receiver set messurement="0" where blood_group="A-"')
                             d.commit()
@@ -542,25 +589,24 @@ def receiverblood():
                             c.execute('update update_blood set am=%s',(t2-abs(b1)))
                             c.execute('update receiver set messurement="0" where blood_group="A-"')
                             d.commit()
-                    if b2<0:
-                        b3=t3-abs(b2)
-                        if b3<=0:
-                            m.showinfo('Blood','Combination of AB-,A-and B- are used..,Blood Received successfully')
-                            c.execute('update update_blood set bm=%s',(t3-t3))
-                            c.execute('update receiver set messurement="0" where blood_group="B-"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB-,A-and B- are used..,Blood Received successfully')
-                            c.execute('update update_blood set bm=%s',(t3-abs(b2)))
-                            c.execute('update receiver set messurement="0" where blood_group="B-"')
-                            d.commit()
-                    if b3<0:
-                        b4=t4-abs(b3)
-                        if b4<=0:
-                            m.showinfo('Blood','Combination of AB-,A-,B-,O- are used...,Blood Received successfully')
-                            c.execute('update receiver set messurement="0" where blood_group="O-"')
-                            c.execute('update update_blood set om=%s',(t4-t4))
-                            d.commit()
+                        if b2<0:
+                            b3=t3-abs(b2)
+                            if b3<=0:
+                                c.execute('update update_blood set bm=%s',(t3-t3))
+                                c.execute('update receiver set messurement="0" where blood_group="B-"')
+                                d.commit()
+                            else:
+                                m.showinfo('Blood','Combination of AB-,A-and B- are used..,Blood Received successfully')
+                                c.execute('update update_blood set bm=%s',(t3-abs(b2)))
+                                c.execute('update receiver set messurement="0" where blood_group="B-"')
+                                d.commit()
+                            if b3<0:
+                                b4=t4-abs(b3)
+                                if b4<=0:
+                                    m.showinfo('Blood','Combination of AB-,A-,B-,O- are used...,Blood Received successfully')
+                                    c.execute('update receiver set messurement="0" where blood_group="O-"')
+                                    c.execute('update update_blood set om=%s',(t4-t4))
+                                    d.commit()
     ##                    else:
     ##                        c.execute('update update_blood set op=%s',(t4-abs(b3))
     ##                        c.execute('update receiver set messurement="0" where blood_group="O+"')
@@ -606,43 +652,45 @@ def receiverblood():
             mres9=c.fetchall()
             for j9 in mres9:
                 t+=int(j9[0])
+            if t<=0:
+                continue    
             total=t1+t2+t3+t4+t5+t6+t7+t8    
-            if t<t1:
+            if t<=t1:
                 m.showinfo('Blood','AB+ Blood is Received Successfully')
                 c.execute('update update_blood set abp=%s',(t1-t))
                 c.execute('update receiver set messurement="0" where blood_group="AB+"')
                 d.commit()
-            elif t<t2:
+            elif t<=t2:
                 m.showinfo('Blood','AB+ is not available..so, AB- is Received Successfully')
                 c.execute('update update_blood set abm=%s',(t2-t))
                 c.execute('update receiver set messurement="0" where blood_group="AB-"')
                 d.commit()
-            elif t<t3:
+            elif t<=t3:
                 m.showinfo('Blood','AB+ is not available..so,O+ is Received Successfully')
                 c.execute('update update_blood set op=%s',(t3-t))
                 c.execute('update receiver set messurement="0" where blood_group="O+"')
                 d.commit()
-            elif t<t4:
+            elif t<=t4:
                 m.showinfo('Blood','AB+ is not available..so,O- is Received Successfully')
                 c.execute('update receiver set messurement="0" where blood_group="O-"')
                 c.execute('update update_blood set om=%s',(t4-t))
                 d.commit()
-            elif t<t5:
+            elif t<=t5:
                 m.showinfo('Blood','AB+ is not available..so,A+ is Received Successfully')
                 c.execute('update update_blood set ap=%s',(t4-t))
                 c.execute('update receiver set messurement="0" where blood_group="A+"')
                 d.commit()
-            elif t<t6:
+            elif t<=t6:
                 m.showinfo('Blood','AB+ is not available..so,A- is Received Successfully')
                 c.execute('update update_blood set am=%s',(t4-t))
                 c.execute('update receiver set messurement="0" where blood_group="A-"')
                 d.commit()
-            elif t<t7:
+            elif t<=t7:
                 m.showinfo('Blood','AB+ is not available..so,B+ is Received Successfully')
                 c.execute('update update_blood set bp=%s',(t4-t))
                 c.execute('update receiver set messurement="0" where blood_group="B+"')
                 d.commit()
-            elif t<t8:
+            elif t<=t8:
                 m.showinfo('Blood','AB+ is not available..so,B- is Received Successfully')
                 c.execute('update update_blood set bm=%s',(t4-t))
                 c.execute('update receiver set messurement="0" where blood_group="B-"')
@@ -658,7 +706,6 @@ def receiverblood():
                     if b1<0:
                         b2=t2-abs(b1)
                         if b2<=0:
-                            m.showinfo('Blood','Combination of AB+ and AB- are used..,Blood Received successfully')
                             c.execute('update update_blood set abm=%s',(t2-t2))
                             c.execute('update receiver set messurement="0" where blood_group="AB-"')
                             d.commit()
@@ -667,100 +714,156 @@ def receiverblood():
                             c.execute('update update_blood set abm=%s',(t2-abs(b1)))
                             c.execute('update receiver set messurement="0" where blood_group="AB-"')
                             d.commit()
-                    if b2<0:
-                        b3=t3-abs(b2)
-                        if b3<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-t3))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB+,AB-and O+ are used..,Blood Received successfully')
-                            c.execute('update update_blood set op=%s',(t3-abs(b2)))
-                            c.execute('update receiver set messurement="0" where blood_group="O+"')
-                            d.commit()
-                    if b3<0:
-                        b4=t4-abs(b3)
-                        if b4<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+ and O- are used...,Blood Received successfully')
-                            c.execute('update receiver set messurement="0" where blood_group="O-"')
-                            c.execute('update update_blood set om=%s',(t4-t4))
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+ and O- are used...,Blood Received successfully')
-                            c.execute('update receiver set messurement="0" where blood_group="O-"')
-                            c.execute('update update_blood set om=%s',(t4-abs(b3)))
-                            d.commit()          
-                    if b4<0:
-                        b5=t5-abs(b4)
-                        if b5<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O- and A+ are used...,Blood Received successfully')
-                            c.execute('update update_blood set ap=%s',(t5-t5))
-                            c.execute('update receiver set messurement="0" where blood_group="A+"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O- and A+ are used...,Blood Received successfully')
-                            c.execute('update update_blood set ap=%s',(t5-abs(b4)))
-                            c.execute('update receiver set messurement="0" where blood_group="A+"')
-                            d.commit()          
-                    if b5<0:
-                        b6=t6-abs(b5)
-                        if b6<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+ and A- are used...,Blood Received successfully')
-                            c.execute('update update_blood set am=%s',(t6-t6))
-                            c.execute('update receiver set messurement="0" where blood_group="A-"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+ and A- are used...,Blood Received successfully')
-                            c.execute('update update_blood set am=%s',(t6-abs(b5)))
-                            c.execute('update receiver set messurement="0" where blood_group="A-"')
-                            d.commit()
-                    if b6<0:
-                        b7=t7-abs(b6)
-                        if b7<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+,A- and B+ are used...,Blood Received successfully')
-                            c.execute('update update_blood set bp=%s',(t7-t7))
-                            c.execute('update receiver set messurement="0" where blood_group="B+"')
-                            d.commit()
-                        else:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+,A- and B+ are used...,Blood Received successfully')
-                            c.execute('update update_blood set bp=%s',(t7-abs(b6)))
-                            c.execute('update receiver set messurement="0" where blood_group="B+"')
-                            d.commit()          
-                    if b7<0:
-                        b8=t8-abs(b7)
-                        if b8<=0:
-                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+,A-,B+ and B- are used...,Blood Received successfully')
-                            c.execute('update update_blood set bm=%s',(t8-t8))
-                            c.execute('update receiver set messurement="0" where blood_group="B-"')
-                            d.commit()
+                        if b2<0:
+                            b3=t3-abs(b2)
+                            if b3<=0:
+                                c.execute('update update_blood set op=%s',(t3-t3))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            else:
+                                m.showinfo('Blood','Combination of AB+,AB-and O+ are used..,Blood Received successfully')
+                                c.execute('update update_blood set op=%s',(t3-abs(b2)))
+                                c.execute('update receiver set messurement="0" where blood_group="O+"')
+                                d.commit()
+                            if b3<0:
+                                b4=t4-abs(b3)
+                                if b4<=0:
+                                    c.execute('update receiver set messurement="0" where blood_group="O-"')
+                                    c.execute('update update_blood set om=%s',(t4-t4))
+                                    d.commit()
+                                else:
+                                    m.showinfo('Blood','Combination of AB+,AB-,O+ and O- are used...,Blood Received successfully')
+                                    c.execute('update receiver set messurement="0" where blood_group="O-"')
+                                    c.execute('update update_blood set om=%s',(t4-abs(b3)))
+                                    d.commit()          
+                                if b4<0:
+                                    b5=t5-abs(b4)
+                                    if b5<=0:
+                                        c.execute('update update_blood set ap=%s',(t5-t5))
+                                        c.execute('update receiver set messurement="0" where blood_group="A+"')
+                                        d.commit()
+                                    else:
+                                        m.showinfo('Blood','Combination of AB+,AB-,O+,O- and A+ are used...,Blood Received successfully')
+                                        c.execute('update update_blood set ap=%s',(t5-abs(b4)))
+                                        c.execute('update receiver set messurement="0" where blood_group="A+"')
+                                        d.commit()          
+                                    if b5<0:
+                                        b6=t6-abs(b5)
+                                        if b6<=0:
+                                            c.execute('update update_blood set am=%s',(t6-t6))
+                                            c.execute('update receiver set messurement="0" where blood_group="A-"')
+                                            d.commit()
+                                        else:
+                                            m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+ and A- are used...,Blood Received successfully')
+                                            c.execute('update update_blood set am=%s',(t6-abs(b5)))
+                                            c.execute('update receiver set messurement="0" where blood_group="A-"')
+                                            d.commit()
+                                        if b6<0:
+                                            b7=t7-abs(b6)
+                                            if b7<=0:
+                                                c.execute('update update_blood set bp=%s',(t7-t7))
+                                                c.execute('update receiver set messurement="0" where blood_group="B+"')
+                                                d.commit()
+                                            else:
+                                                m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+,A- and B+ are used...,Blood Received successfully')
+                                                c.execute('update update_blood set bp=%s',(t7-abs(b6)))
+                                                c.execute('update receiver set messurement="0" where blood_group="B+"')
+                                                d.commit()          
+                                            if b7<0:
+                                                b8=t8-abs(b7)
+                                                if b8<=0:
+                                                    m.showinfo('Blood','Combination of AB+,AB-,O+,O-,A+,A-,B+ and B- are used...,Blood Received successfully')
+                                                    c.execute('update update_blood set bm=%s',(t8-t8))
+                                                    c.execute('update receiver set messurement="0" where blood_group="B-"')
+                                                    d.commit()
                 if zz==0:
                     break
             else:
                 m.showwarning('Blood','(total quantity of B+,B-,O+,O-)is < Blood u want so,Blood is not AVAILABLE')           
                 
-    
+def search():
+    list1=['A+','A-','B+','B-','O+','O-','AB+','AB-']
+    z=lb1entry.get()
+    if z in list1:
+        if z=='A+':
+            c.execute('select ap from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood A+',f'Blood {z} ,Quantiy = {m2}')
+        if z=='A-':
+            c.execute('select am from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood A-',f'Blood {z} ,Quantiy = {m2}')
+        if z=='B+':
+            c.execute('select bp from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood B+',f'Blood {z} ,Quantiy = {m2}')
+        if z=='B-':
+            c.execute('select bm from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood B-',f'Blood {z} ,Quantiy = {m2}')
+        if z=='O+':
+            c.execute('select op from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood O+',f'Blood {z} ,Quantiy = {m2}')
+        if z=='O-':
+            c.execute('select om from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood O-',f'Blood {z} ,Quantiy = {m2}')
+        if z=='AB+':
+            c.execute('select abp from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood AB+',f'Blood {z} ,Quantiy = {m2}')
+        if z=='AB-':
+            c.execute('select abm from update_blood')
+            result=c.fetchall()
+            for i in result:
+                m2=int(i[0])
+            m.showinfo('Blood AB-',f'Blood {z} ,Quantiy = {m2}')    
+    else:
+        m.showwarning('Blood',f'Blood {z} ,INVALID BLOOD GROUP')
+        lb1entry.delete(0,'end')
 def update_receiver():
-    global bg1
+    global bg1,lb1entry
     t5=Toplevel(bd=10,relief=SOLID)
     t5.title('Update_receiver_details')
     t5.geometry('900x700+200+20')
     t5.resizable(0,0)
     t5['bg']='light blue'
+    n1=StringVar()
     lb1head=Label(t5,text='Update Receiver Details',font=('times new roman',30),relief=SOLID,width=35)
     lb1head.place(x=50,y=30)
+    lb1label=Label(t5,width=12,text=' Blood_group :',font=('times new roman',12),relief=SOLID,bd=5)
+    lb1label.place(x=170,y=120)
+    lb1button=Button(t5,text='SEARCH',width=20,bg='red',relief=SUNKEN,bd=5,command=search)
+    lb1button.place(x=470,y=120)
+    lb1entry=Entry(t5,width=20,font=('times new roman',12),textvariable=n1,bg='cyan',relief=SOLID,bd=5)
+    lb1entry.place(x=290,y=120)
     lb1name=Label(t5,width=12,text=' Name ',font=('times new roman',15),bg='black',fg='white',)
-    lb1name.place(x=150,y=100)
+    lb1name.place(x=150,y=170)
     lb1phone=Label(t5,width=12,text=' phone ',font=('times new roman',15),relief=SOLID,bg='black',fg='white')
-    lb1phone.place(x=290,y=100)
+    lb1phone.place(x=290,y=170)
     lb1blood=Label(t5,width=12,text=' Blood_group ',font=('times new roman',15),relief=SOLID,bg='black',fg='white')
-    lb1blood.place(x=430,y=100)
+    lb1blood.place(x=430,y=170)
     lb1messure=Label(t5,width=12,text=' Messurement ',font=('times new roman',15),relief=SOLID,bg='black',fg='white')
-    lb1messure.place(x=570,y=100)
+    lb1messure.place(x=570,y=170)
     
     c.execute('select * from receiver')
     result=c.fetchall()
-    num=130
+    num=200
     bg1=set()
     
     for i in result:

@@ -43,7 +43,7 @@ def admin():
     lpass.place(x=130,y=140)
 
     euser=Entry(t1,width=20,font=('times new roman',12),bg='cyan',textvariable=n1)
-    epass=Entry(t1,width=20,font=('times new roman',12),bg='cyan',textvariable=n2)
+    epass=Entry(t1,show='*',width=20,font=('times new roman',12),bg='cyan',textvariable=n2)
     euser.place(x=285,y=100)
     epass.place(x=285,y=140)
 
