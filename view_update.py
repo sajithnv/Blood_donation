@@ -5,13 +5,14 @@ import pymysql
 
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
-def view():
+def view():#view admin page
     global t2
+    
     t2=Toplevel(bd=10,relief=SOLID)
     t2.title('Admin page')
     t2.geometry('600x500+730+100')
     t2.resizable(0,0)
-    t2['bg']='light blue'
+    t2['bg']='brown'
     z=Label(t2,text='Admin Home',font=('times new roman',30),relief=SOLID,width=25)
     z.pack(padx=5,pady=20)
     b1=Button(t2,text='Donor Details',command=donor_details,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')
@@ -25,6 +26,7 @@ def view():
     c.execute('select messurement from donor')
     res=c.fetchall()
     x=0
+#its like status..if updation is required then show some message,when enter to this [page    
     for r in res:
         x=x+int(r[0])
     if x>0:
@@ -37,12 +39,14 @@ def view():
     if x1>0:
         m.showinfo('On branch ADMIN','RECEIVER UPDATE IS REQUIRED...')    
     t2.mainloop()
-def donor_details():
+#till here    
+def donor_details(): # all donor details
     t3=Toplevel(bd=10,relief=SOLID)
     t3.title('donor details')
     t3.geometry('1300x700+30+20')
     t3.resizable(0,0)
     t3['bg']='light blue'
+    
     lhead=Label(t3,text='Donor Details',font=('times new roman',30),relief=SOLID,width=53)
     lhead.place(x=50,y=30)
     lname=Label(t3,width=12,text=' Name ',font=('times new roman',15),bg='black',fg='white',)
@@ -84,7 +88,7 @@ def donor_details():
         lbdate.place(x=1060,y=num)
         num+=30
     t3.mainloop()    
-def receiver_details():
+def receiver_details(): # all reciever details
     t5=Toplevel(bd=10,relief=SOLID)
     t5.title('receiver details')
     t5.geometry('1300x700+30+20')

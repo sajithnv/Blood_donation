@@ -1,11 +1,12 @@
 from tkinter import *
 from tkinter import messagebox as m
-from datetime import *
+from datetime import date
 import pymysql
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
-def submit():
+def submit(): #donor registration submit button actions
     list1=['A+','A-','B+','B-','O+','O-','AB+','AB-']
+    listphone=[]
     z1=ename.get()
     z2=eage.get()
     z3=n3.get()
@@ -14,18 +15,17 @@ def submit():
     z6=eblood.get()
     z7=emessure.get()
     z8=edate.get()
-##    result=c.fetchall()
-##        for i in result:
-##            if z4 in i[3]:
-##                newblood=int(z7)+int(i[3])
-##                y="update donor set messurement=f'{newblood}' where phone=f'{int(z4)}'"
-##                c.execute(y)
-##                d.commit()
-##        else: 
+    c.execute('select phone from donor')
+    res=c.fetchall()
+#conditions for donate ...like;
+    ## Empty field warning, Age consider only numbers, AGE LIMIT 18-65,INVALID Blood_group,
+    #blood donation messurement 350-450 ,PHONE NUMBER should be 10 digits
+    for i in res:
+        listphone.append(i[0])  
     if len(z3)==0 or len(z5)==0 or len(z6)==0 or int(z7)==0:
         m.showwarning('warning..','Some field is empty!!!')
-    elif z1.isalpha()==0 or z1.isspace==1 or z1.isspace==0:
-        m.showwarning('warning..','Name field only consider alphabets and spaces!!!') 
+    elif z1.isalpha()==0:
+        m.showwarning('warning..','Name field only consider alphabets!!') 
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
     elif z4.isdigit()==0:
@@ -34,39 +34,71 @@ def submit():
         m.showwarning('warning..','Age limit 18 to 65')
     elif z6 not in list1:
         m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')    
-    elif int(z7)>350 and int(z7)<30:
-        m.showwarning('Limitation Warning','U can donate maximum 350ml and minimum 30ml at a time')
+    elif int(z7)>450 or int(z7)<350:
+        m.showwarning('Limitation Warning','U can donate maximum 450ml and minimum 350ml at a time')
         emessure.delete(0,'end')
     elif len(z4)<10 or len(z4)>10:
         m.showwarning('warning..','Phone number length should be 10')
-    else:
-##        c.execute('select phone from donor')
-##        result=c.fetchall()
-##        l=[]
-##        for i in int(result):
-##            l.append(i)
-##        print(l)    
-##        if z4 in l:
-##            print('hii')
-##            x=ephone.get()
-##            c.execute("select messurement from donor where phone=f'{x}'")
-##            result=c.fetchall()
-##            print(result)
-##            
-##          for i in result:
-##                    print(i)
-##                    bld=int(i[6])+10
-##                    m.message('',f'{bld}')
-##                    newblood=f'{str(bld)}'
-##                    z="select messsure from donor"
-##                    c.execute(z)
-##                    y="update donor set messurement='%s' where phone='%s'"
-##                    c.execute(y,(newblood,z4))
-##                    d.commit()
-           
+    elif z4 in listphone:
+#Importend: blood_donation(qty-350 to 450) once in 3 month
+        ## find number of days (90) from database if >90 allow to donate on same database
+        ## and.. if they add diff blood_group then send Warning... and correct it (if press yes)else exit.
+        
+        c.execute('select date from donor where phone=%s',z4)
+        reslt=c.fetchall()
+        for i in reslt:
+            
+            d1=i[0]
+            d2=date.today()
+            odate=d2-d1
+
+            #use date to store date create new database...
+            if (odate.days)<90:
+                m.showwarning(f'LIMTATION',f'ur already donated..u can donate only after 90 days (till today- {odate}) from donated date({i[0]})')
+            else:
+                ans=m.askyesnocancel('Blood',f'CHECK YOUR MOBILE NUMBER\nELSE...{z1},You\'re already donated once...\nYes : It\'s MY OWN NUMBER continue donation\nNo : EDIT MY NUMBER \n Cancel: exit')
+                c.execute('select * from donor where phone=%s',z4)
+                res1=c.fetchall()
+                for i in res1:
+                    if ans==1:
+                        if i[5] != z6:
+#if the entered bllod_group in database is diff from new then,send msg for change bllod_grp
+                            w=m.askyesno('BLOOD GROUP',f'YOUR BLOOD GROUP IS: {i[5]}\nYes: to proceed with {i[5]}\n No: to exit the page')
+                            if w==1:
+                                x=c.execute('update donor set messurement=%s where phone=%s',(int(i[6])+int(z7),z4))
+                                m.showinfo('DONATED SUCCESSFULLY...',f'{i[0]} , Blood: {i[5]} Messurement: {z7}')
+                                d.commit()
+                                ename.delete(0,'end')
+                                eage.delete(0,'end')
+                                n3.set(0)
+                                ephone.delete(0,'end')
+                                eaddress.delete(0,'end')
+                                eblood.delete(0,'end')
+                                emessure.delete(0,'end')
+                        else:
+##make those fields empty after commit for another entry...only if days>90
+
+                            x=c.execute('update donor set messurement=%s where phone=%s',(int(i[6])+int(z7),z4))
+                            m.showinfo('DONATED SUCCESSFULLY...',f'{i[0]} , Blood: {i[5]} Messurement: {z7}')
+                            d.commit()
+                            ename.delete(0,'end')
+                            eage.delete(0,'end')
+                            n3.set(0)
+                            ephone.delete(0,'end')
+                            eaddress.delete(0,'end')
+                            eblood.delete(0,'end')
+                            emessure.delete(0,'end')
+#if the donor entering wrong number then ask for re-entry
+                    elif ans==0:
+                        ephone.delete(0,'end')
+                    else:
+                        t4.destroy()
+    else:           
         x='''insert into donor values(%s,%s,%s,%s,%s,%s,%s,%s)'''
         c.execute(x,(z1,z2,z3,z4,z5,z6,z7,z8))
         d.commit()   
+##make those fields empty after commit for another entry
+
         ename.delete(0,'end')
         eage.delete(0,'end')
         n3.set(0)
@@ -78,18 +110,19 @@ def submit():
         z=m.askyesno('close donor page','Are you sure to CLOSE DONOR PAGE...')
         if z==1:
             t4.withdraw()
-
-def donor():
+def donor(): #UI for donor registration...
+#imortent : weight >45 and hemogoblin >12.5 is good_helth status for donation    
     q=m.askyesno('IMPORTENT QUESTION','Your body weight more than 45 kg AND HEMOGOBLIN Content More than 12.5gms/100ml')
     if q==0:
         m.showerror('<<SORRY>>','You can\'t DONATE Blood')
+#till here 
     elif q==1:
         global ename,eage,n3,ephone,eaddress,eblood,emessure,t4,edate,nday,nmonth,nyear
         t4=Toplevel(bd=10,relief=SOLID)
         t4.title('Donor page')
         t4.geometry('600x500+720+100')
         t4.resizable(0,0)
-        t4['bg']='light blue'
+        t4['bg']='teal'
         
         n1=StringVar()
         n2=StringVar()
@@ -101,10 +134,7 @@ def donor():
         n8=StringVar()
         n3.set(0)
         
-        now=datetime.now()
-        nday=now.strftime("%d")
-        nmonth=now.strftime("%m")
-        nyear=now.strftime("%Y")
+        now=date.today()
         
         lhead=Label(t4,text='Donor Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
         lhead.pack(padx=40,pady=20)
@@ -126,7 +156,7 @@ def donor():
         lmessure.place(x=120,y=380)
 
         edate=Entry(t4,width=20,font=('times new roman',12),textvariable=n8,bg='cyan')
-        edate.insert(0,f'{nday}/{nmonth}/{nyear}')
+        edate.insert(0,now)
         edate.place(x=300,y=100)
         ename=Entry(t4,width=20,font=('times new roman',12),textvariable=n1,bg='cyan')
         ename.place(x=300,y=140)

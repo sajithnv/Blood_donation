@@ -8,7 +8,7 @@ t=Tk()
 t.title('Blood Donation Management System')
 t.geometry('600x500+100+100')
 t.resizable(0,0)
-t['bg']='light blue'
+t['bg']='steelblue4'
 l=Label(text='Blood Bank Management System',relief=SOLID,font=('times new roman',30),fg='black')
 l.pack(padx=5,pady=30)
 b1=Button(t,text='ADMIN',command=admin,width=20,font=('ariel',15,'bold'),relief=SUNKEN,bd=10,fg='white',bg='black')

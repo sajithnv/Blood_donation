@@ -4,7 +4,7 @@ from datetime import *
 import pymysql
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
-def submit():
+def submit(): #patient/receiver submit button actions
     list1=['A+','A-','B+','B-','O+','O-','AB+','AB-']
     z1=ename.get()
     z2=eage.get()
@@ -14,52 +14,31 @@ def submit():
     z6=eblood.get()
     z7=emessure.get()
     z8=edate.get()
-##    result=c.fetchall()
-##        for i in result:
-##            if z4 in i[3]:
-##                newblood=int(z7)+int(i[3])
-##                y="update donor set messurement=f'{newblood}' where phone=f'{int(z4)}'"
-##                c.execute(y)
-##                d.commit()
-##        else: 
+ #conditions for receive ...like;
+    ## Empty field warning, Age consider only numbers,INVALID Blood_group,
+    #blood receive messurement limit 525 (1unit) to 2625(5 unit) ,PHONE NUMBER should be 10 digits,   
     if len(z3)==0 or len(z5)==0 or len(z6)==0 or int(z7)==0:
         m.showwarning('warning..','Some field is empty!!!')
-##    elif z1.isalpha()==0:
-##        m.showwarning('warning..','Name field only consider alphabets and spaces!!!') 
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
         eage.delete(0,'end')
     elif z4.isdigit()==0:
         m.showwarning('warning..','Phone number field only consider numbers!!!')
         ephone.delete(0,'end')
-    elif int(z2)>99:
-        m.showwarning('warning..','Age limit 18 to 65')
-        eage.delete(0,'end')
+    
     elif z6 not in list1:
         m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')
         eblood.delete(0,'end')
+    elif int(z7)<525 or int(z7)>2625:
+        m.showwarning('BLOOD LIMIT','Minimum: 525 ML =1 unit \nMaximum: 2625 ML =5 units')
+        emessure.delete(0,'end')
     elif len(z4)<10 or len(z4)>10:
         m.showwarning('warning..','Phone number length should be 10')
     else:
         x='''insert into receiver values(%s,%s,%s,%s,%s,%s,%s,%s)'''
         c.execute(x,(z1,z2,z3,z4,z5,z6,z7,z8))
-##        result=c.fetchall()
-##        for i in result:
-##            m.message('',f'{i[0]}')
-##            m.message('',f'{z4 in i[3]}')
-##            if z4 in i[3]:
-##                z="select messurement from donor where phone=f'{i[3]}'"
-##                c.execute(z)
-##                bld=int(i[6])+10
-##                m.message('',f'{bld}')
-##                newblood=f'{str(bld)}'
-####                z="select messsure from donor where phone=f'i[3]'"
-####                c.execute(z)
-##                y="update donor set messurement='%s' where phone='%s'"
-##                c.execute(y,(newblood,z4))
-##                d.commit()
-##            else: 
         d.commit()   
+##make those fields empty after commit for another entry
         ename.delete(0,'end')
         eage.delete(0,'end')
         n3.set(0)
@@ -72,13 +51,13 @@ def submit():
         if z==1:
             t6.withdraw()
 
-def patient():
+def patient():# ui for patient/receiver registration form..
         global ename,eage,n3,ephone,eaddress,eblood,emessure,t6,edate,nday,nmonth,nyear
         t6=Toplevel(bd=10,relief=SOLID)
         t6.title('Receiver page')
         t6.geometry('600x500+740+100')
         t6.resizable(0,0)
-        t6['bg']='light blue'
+        t6['bg']='teal'
         
         n1=StringVar()
         n2=StringVar()
@@ -90,10 +69,8 @@ def patient():
         n8=StringVar()
         n3.set(0)
         
-        now=datetime.now()
-        nday=now.strftime("%d")
-        nmonth=now.strftime("%m")
-        nyear=now.strftime("%Y")
+        now=date.today()
+        
         
         lhead=Label(t6,text='Receiver Registration Form',relief=SOLID,font=('times new roman',30),fg='black')
         lhead.pack(padx=40,pady=20)
@@ -115,7 +92,7 @@ def patient():
         lmessure.place(x=120,y=380)
 
         edate=Entry(t6,width=20,font=('times new roman',12),textvariable=n8,bg='cyan')
-        edate.insert(0,f'{nday}/{nmonth}/{nyear}')
+        edate.insert(0,now)
         edate.place(x=300,y=100)
         ename=Entry(t6,width=20,font=('times new roman',12),textvariable=n1,bg='cyan')
         ename.place(x=300,y=140)

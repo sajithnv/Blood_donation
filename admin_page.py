@@ -5,10 +5,9 @@ from view_update import *
 
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
 c=d.cursor()
-def sub():
+def sub(): #subit button actions
     z1=euser.get()
     z2=epass.get()
-    
     c.execute('select * from login ')
     result=c.fetchall()
     for i in result:
@@ -24,13 +23,13 @@ def sub():
                 m.showerror('password','Wrong PASSWORD')
         else:
             m.showerror('user_name','Wrong USER_NAME')
-def admin():
+def admin(): # for ui for admin sign_up
     global euser,epass,t1
     t1=Toplevel(bd=10,relief=SOLID)
     t1.title('Admin Login Page')
     t1.geometry('600x500+730+100')
     t1.resizable(0,0)
-    t1['bg']='light blue'
+    t1['bg']='saddlebrown'
 
     n1=StringVar()
     n2=StringVar()
