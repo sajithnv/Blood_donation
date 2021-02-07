@@ -57,6 +57,7 @@ def patient():# ui for patient/receiver registration form..
         t6.title('Receiver page')
         t6.geometry('600x500+740+100')
         t6.resizable(0,0)
+        t6.wm_iconbitmap('life.ico')
         t6['bg']='teal'
         
         n1=StringVar()

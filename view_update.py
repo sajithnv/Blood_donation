@@ -12,6 +12,7 @@ def view():#view admin page
     t2.title('Admin page')
     t2.geometry('600x500+730+100')
     t2.resizable(0,0)
+    t2.wm_iconbitmap('life.ico')
     t2['bg']='brown'
     z=Label(t2,text='Admin Home',font=('times new roman',30),relief=SOLID,width=25)
     z.pack(padx=5,pady=20)
@@ -45,6 +46,7 @@ def donor_details(): # all donor details
     t3.title('donor details')
     t3.geometry('1300x700+30+20')
     t3.resizable(0,0)
+    t3.wm_iconbitmap('life.ico')
     t3['bg']='light blue'
     
     lhead=Label(t3,text='Donor Details',font=('times new roman',30),relief=SOLID,width=53)
@@ -69,6 +71,7 @@ def donor_details(): # all donor details
     c.execute('select * from donor')
     result=c.fetchall()
     num=130
+    t=0
     for i in result:
         lbname=Label(t3,text=i[0],font=('times new roman',15),relief=SOLID,width=12,fg='blue')
         lbname.place(x=80,y=num)
@@ -87,12 +90,23 @@ def donor_details(): # all donor details
         lbdate=Label(t3,text=i[7],font=('times new roman',15),relief=SOLID,width=12,fg='blue')
         lbdate.place(x=1060,y=num)
         num+=30
+        t+=int(i[6])
+    if t==0:
+        indi=Label(t3,text='STATUS: EMPTY',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='green',fg='white')
+        indi.place(x=300,y=600)
+    elif t>0 and t<=3000:
+        indi=Label(t3,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='red',fg='white')
+        indi.place(x=300,y=600)
+    else:
+        indi=Label(t3,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='black',fg='white')
+        indi.place(x=300,y=650)  
     t3.mainloop()    
 def receiver_details(): # all reciever details
     t5=Toplevel(bd=10,relief=SOLID)
     t5.title('receiver details')
     t5.geometry('1300x700+30+20')
     t5.resizable(0,0)
+    t5.wm_iconbitmap('life.ico')
     t5['bg']='light blue'
     lb1head=Label(t5,text='Receiver Details',font=('times new roman',30),relief=SOLID,width=53)
     lb1head.place(x=50,y=30)
@@ -116,6 +130,7 @@ def receiver_details(): # all reciever details
     c.execute('select * from receiver')
     result=c.fetchall()
     num=130
+    t=0
     for i in result:
         lb2name=Label(t5,text=i[0],font=('times new roman',15),relief=SOLID,width=12,fg='blue')
         lb2name.place(x=80,y=num)
@@ -133,6 +148,16 @@ def receiver_details(): # all reciever details
         lb2messure.place(x=920,y=num)
         lb2date=Label(t5,text=i[7],font=('times new roman',15),relief=SOLID,width=12,fg='blue')
         lb2date.place(x=1060,y=num)
-        num+=30 
+        num+=30
+        t+=int(i[6])
+    if t==0:
+        indi=Label(t5,text='STATUS: EMPTY',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='green',fg='white')
+        indi.place(x=300,y=600)
+    elif t>0 and t<=3000:
+        indi=Label(t5,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='red',fg='white')
+        indi.place(x=300,y=600)
+    else:
+        indi=Label(t5,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='black',fg='white')
+        indi.place(x=300,y=650)     
     t5.mainloop()    
 

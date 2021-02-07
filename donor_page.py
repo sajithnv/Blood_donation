@@ -122,6 +122,7 @@ def donor(): #UI for donor registration...
         t4.title('Donor page')
         t4.geometry('600x500+720+100')
         t4.resizable(0,0)
+        t4.wm_iconbitmap('life.ico')
         t4['bg']='teal'
         
         n1=StringVar()

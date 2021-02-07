@@ -122,6 +122,7 @@ def update_donor():#UI
     t3.title('Update_donor_details')
     t3.geometry('900x700+200+20')
     t3.resizable(0,0)
+    t3.wm_iconbitmap('life.ico')
     t3['bg']='light blue'
     
     lhead=Label(t3,text='Update Donor Details',font=('times new roman',30),relief=SOLID,width=35)
@@ -162,7 +163,7 @@ def update_donor():#UI
             num+=30
     lbbutton=Button(t3,text='Update',font=('times new roman',20),relief=SUNKEN,bd=5,width=15,bg='red',fg='white',command=donorblood)
     lbbutton.place(x=300,y=450)
-    c.execute('select messurement from donor')
+    
     
     t3.mainloop()
 #till here    
@@ -838,6 +839,7 @@ def update_receiver():#UI
     t5.title('Update_receiver_details')
     t5.geometry('900x700+200+20')
     t5.resizable(0,0)
+    t5.wm_iconbitmap('life.ico')
     t5['bg']='light blue'
     n1=StringVar()
     lb1head=Label(t5,text='Update Receiver Details',font=('times new roman',30),relief=SOLID,width=35)

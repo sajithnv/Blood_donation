@@ -29,7 +29,8 @@ def admin(): # for ui for admin sign_up
     t1.title('Admin Login Page')
     t1.geometry('600x500+730+100')
     t1.resizable(0,0)
-    t1['bg']='saddlebrown'
+    t1.wm_iconbitmap('life.ico')
+    t1['bg']='teal'
 
     n1=StringVar()
     n2=StringVar()

@@ -1,3 +1,5 @@
+#db : blood
+#tables: donor ,receiver ,update_blood(for store blood)
 from tkinter import *
 from donor_page import *
 from patient_page import *
@@ -8,6 +10,7 @@ t=Tk()
 t.title('Blood Donation Management System')
 t.geometry('600x500+100+100')
 t.resizable(0,0)
+t.wm_iconbitmap('life.ico')
 t['bg']='steelblue4'
 l=Label(text='Blood Bank Management System',relief=SOLID,font=('times new roman',30),fg='black')
 l.pack(padx=5,pady=30)
