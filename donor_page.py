@@ -22,13 +22,13 @@ def submit(): #donor registration submit button actions
     #blood donation messurement 350-450 ,PHONE NUMBER should be 10 digits
     for i in res:
         listphone.append(i[0])  
-    if len(z3)==0 or len(z5)==0 or len(z6)==0 or int(z7)==0:
+    if z3=='0' or len(z5)==0 or len(z6)==0 or int(z7)==0 or len(z1)==0 or len(z2)==0 or len(z4)==0 or len(z8)==0:
         m.showwarning('warning..','Some field is empty!!!')
     elif z1.isalpha()==0:
         m.showwarning('warning..','Name field only consider alphabets!!') 
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
-    elif z4.isdigit()==0:
+        elif z4.isdigit()==0:
         m.showwarning('warning..','Phone number field only consider numbers!!!')      
     elif int(z2)<18 or int(z2)>65:
         m.showwarning('warning..','Age limit 18 to 65')
@@ -52,7 +52,7 @@ def submit(): #donor registration submit button actions
             d2=date.today()
             odate=d2-d1
 
-            #use date to store date create new database...
+            
             if (odate.days)<90:
                 m.showwarning(f'LIMTATION',f'ur already donated..u can donate only after 90 days (till today- {odate}) from donated date({i[0]})')
             else:

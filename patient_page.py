@@ -17,7 +17,7 @@ def submit(): #patient/receiver submit button actions
  #conditions for receive ...like;
     ## Empty field warning, Age consider only numbers,INVALID Blood_group,
     #blood receive messurement limit 525 (1unit) to 2625(5 unit) ,PHONE NUMBER should be 10 digits,   
-    if len(z3)==0 or len(z5)==0 or len(z6)==0 or int(z7)==0:
+    if z3=='0' or len(z5)==0 or len(z6)==0 or int(z7)==0 or len(z1)==0 or len(z2)==0 or len(z4)==0 or len(z8)==0:
         m.showwarning('warning..','Some field is empty!!!')
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
@@ -25,7 +25,7 @@ def submit(): #patient/receiver submit button actions
     elif z4.isdigit()==0:
         m.showwarning('warning..','Phone number field only consider numbers!!!')
         ephone.delete(0,'end')
-    
+
     elif z6 not in list1:
         m.showwarning('warning..',f'INVALID Blood_group : {z6} : !!')
         eblood.delete(0,'end')
