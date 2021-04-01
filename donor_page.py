@@ -28,7 +28,7 @@ def submit(): #donor registration submit button actions
         m.showwarning('warning..','Name field only consider alphabets!!') 
     elif z2.isdigit()==0:
         m.showwarning('warning..','Age field only consider numbers!!!')
-        elif z4.isdigit()==0:
+    elif z4.isdigit()==0:
         m.showwarning('warning..','Phone number field only consider numbers!!!')      
     elif int(z2)<18 or int(z2)>65:
         m.showwarning('warning..','Age limit 18 to 65')
@@ -65,6 +65,7 @@ def submit(): #donor registration submit button actions
 #if the entered bllod_group in database is diff from new then,send msg for change bllod_grp
                             w=m.askyesno('BLOOD GROUP',f'YOUR BLOOD GROUP IS: {i[5]}\nYes: to proceed with {i[5]}\n No: to exit the page')
                             if w==1:
+                                x=c.execute('update donor set date=%s where phone=%s',(z8,z4))
                                 x=c.execute('update donor set messurement=%s where phone=%s',(int(i[6])+int(z7),z4))
                                 m.showinfo('DONATED SUCCESSFULLY...',f'{i[0]} , Blood: {i[5]} Messurement: {z7}')
                                 d.commit()

@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox  as m
 from view_update1 import *
+from tkinter import ttk
 import pymysql
 
 d=pymysql.connect(host='localhost',user='root',password='rooot',db='blood')
@@ -44,10 +45,13 @@ def view():#view admin page
 def donor_details(): # all donor details
     t3=Toplevel(bd=10,relief=SOLID)
     t3.title('donor details')
-    t3.geometry('1300x700+30+20')
+    t3.geometry('1300x2500+30+20')
     t3.resizable(0,0)
     t3.wm_iconbitmap('life.ico')
     t3['bg']='light blue'
+
+##    t3.columnconfigure(0,weight=1)
+##    t3.rowconfigure(0,weight=1)
     
     lhead=Label(t3,text='Donor Details',font=('times new roman',30),relief=SOLID,width=53)
     lhead.place(x=50,y=30)
@@ -99,7 +103,7 @@ def donor_details(): # all donor details
         indi.place(x=300,y=600)
     else:
         indi=Label(t3,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='black',fg='white')
-        indi.place(x=300,y=650)  
+        indi.place(x=300,y=600)  
     t3.mainloop()    
 def receiver_details(): # all reciever details
     t5=Toplevel(bd=10,relief=SOLID)
@@ -158,6 +162,6 @@ def receiver_details(): # all reciever details
         indi.place(x=300,y=600)
     else:
         indi=Label(t5,text=f'STATUS: UPDATE(QTY : {t})',font=('times new roman',30),relief=SUNKEN,bd=5,width=30,bg='black',fg='white')
-        indi.place(x=300,y=650)     
+        indi.place(x=300,y=600)     
     t5.mainloop()    
 

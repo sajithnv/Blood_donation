@@ -1,5 +1,5 @@
 #db : blood
-#tables: donor ,receiver ,update_blood(for store blood)
+#tables: donor ,receiver ,update_blood
 from tkinter import *
 from donor_page import *
 from patient_page import *
