@@ -1,11 +1,20 @@
 #db : blood
-#tables: donor ,receiver ,update_blood
+#tables: donor ,receiver ,update_blood,login
 from tkinter import *
 from donor_page import *
 from patient_page import *
 from admin_page import *
 import pymysql
 d=pymysql.connect(host='localhost',user='root',password='rooot',database='blood')
+##c=d.cursor()
+##table1='create table donor(name varchar(20),age varchar(2),gender varchar(10),phone varchar(20),address varchar(80),blood_group varchar(10),messurement varchar(3),date date)'
+##c.execute(table1)
+##table2='create table login(uname varchar(20),password varchar(20))'
+##c.execute(table2)
+##table3='create table receiver(name varchar(20),age varchar(2),gender varchar(10),phone varchar(20),address varchar(80),blood_group varchar(10),messurement varchar(3),date date)'
+##c.execute(table3)
+##table4='create table update_blood(ap int,am int,bp int,bm int,op int,om int,abp int,abm int)'
+##c.execute(table4)
 t=Tk()
 t.title('Blood Donation Management System')
 t.geometry('600x500+100+100')
